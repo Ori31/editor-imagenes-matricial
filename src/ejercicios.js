@@ -97,41 +97,29 @@ function imagenAMatriz(rutaImagen) {
  * matrizAImagen(matriz, 'imagenes/salida/copia.png');
  */
 function matrizAImagen(matriz, rutaSalida) {
-  // TODO: Implementar la conversión de matriz a PNG
+  validarMatriz(matriz);
+  const dims = obtenerDimensiones(matriz);
   
-  // 1. Validar la matriz
-  // validarMatriz(matriz);
-  
-  // 2. Obtener dimensiones
-  // const dims = obtenerDimensiones(matriz);
-  
-  // 3. Crear el PNG
-  // const png = new PNG({
-  //   width: dims.columnas,
-  //   height: dims.filas
-  // });
-  
-  // 4. Llenar png.data
-  // for (let y = 0; y < dims.filas; y++) {
-  //   for (let x = 0; x < dims.columnas; x++) {
-  //     const idx = (dims.columnas * y + x) << 2;
-  //     const pixel = matriz[y][x];
-  //     
-  //     png.data[idx] = limitarValorColor(pixel.r);
-  //     png.data[idx + 1] = limitarValorColor(pixel.g);
-  //     png.data[idx + 2] = limitarValorColor(pixel.b);
-  //     png.data[idx + 3] = limitarValorColor(pixel.a);
-  //   }
-  // }
-  
-  // 5. Asegurar que existe el directorio de salida
-  // asegurarDirectorio(path.dirname(rutaSalida));
-  
-  // 6. Guardar el archivo
-  // const buffer = PNG.sync.write(png);
-  // fs.writeFileSync(rutaSalida, buffer);
-  
-  // ESCRIBE TU CÓDIGO AQUÍ
+  const png = new PNG({
+    width: dims.columnas,
+    height: dims.filas
+  });
+
+  for (let y = 0; y < dims.filas; y++) {
+    for (let x = 0; x < dims.columnas; x++) {
+      const idx = (dims.columnas * y + x) * 4;
+      const pixel = matriz[y][x];
+      
+      png.data[idx] = limitarValorColor(pixel.r);
+      png.data[idx + 1] = limitarValorColor(pixel.g);
+      png.data[idx + 2] = limitarValorColor(pixel.b);
+      png.data[idx + 3] = limitarValorColor(pixel.a);
+    }
+  }
+
+  asegurarDirectorio(path.dirname(rutaSalida));
+  const buffer = PNG.sync.write(png);
+  fs.writeFileSync(rutaSalida, buffer);
 }
 
 /**
