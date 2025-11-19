@@ -404,10 +404,12 @@ function mezclarImagenes(matriz1, matriz2, factor) {
   // 1. Verificar que tengan las mismas dimensiones
   const dims1 = obtenerDimensiones(matriz1);
   const dims2 = obtenerDimensiones(matriz2);
+  
   if (dims1.filas !== dims2.filas || dims1.columnas !== dims2.columnas) {
     throw new Error('Las imágenes deben tener el mismo tamaño');
   }
-  
+
+  const resultado = copiarMatriz(matriz1);
 
   for (let i = 0; i < resultado.length; i++) {
     for (let j = 0; j < resultado[i].length; j++) {
@@ -418,13 +420,14 @@ function mezclarImagenes(matriz1, matriz2, factor) {
         matriz1[i][j].g * (1 - factor) + matriz2[i][j].g * factor
       );
       resultado[i][j].b = limitarValorColor(
-         matriz1[i][j].b * (1 - factor) + matriz2[i][j].b * factor
+        matriz1[i][j].b * (1 - factor) + matriz2[i][j].b * factor
       );
     }
   }
 
   return resultado;
 }
+
 
 /**
  * Ejercicio 4.2: Filtro Sepia (9 puntos)
@@ -443,9 +446,25 @@ function mezclarImagenes(matriz1, matriz2, factor) {
  * const vintage = aplicarSepia(matriz);
  */
 function aplicarSepia(matriz) {
-  // TODO: Implementar filtro sepia
-  
-  return []; // REEMPLAZAR
+  const resultado = copiarMatriz(matriz);
+
+  for (let i = 0; i < resultado.length; i++) {
+    for (let j = 0; j < resultado[i].length; j++) {
+      const pixel = matriz[i][j];
+      const r = 0.393 * pixel.r + 0.769 * pixel.g + 0.189 * pixel.b;
+      const g = 0.349 * pixel.r + 0.686 * pixel.g + 0.168 * pixel.b;
+      const b = 0.272 * pixel.r + 0.534 * pixel.g + 0.131 * pixel.b;
+      
+      resultado[i][j] = {
+        r: limitarValorColor(r),
+        g: limitarValorColor(g),
+        b: limitarValorColor(b),
+        a: pixel.a
+      };
+    }
+  }
+
+  return resultado;
 }
 
 /**
