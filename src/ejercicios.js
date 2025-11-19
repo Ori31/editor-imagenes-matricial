@@ -402,18 +402,28 @@ function mezclarImagenes(matriz1, matriz2, factor) {
   // TODO: Implementar mezcla de imágenes
   
   // 1. Verificar que tengan las mismas dimensiones
-  // const dims1 = obtenerDimensiones(matriz1);
-  // const dims2 = obtenerDimensiones(matriz2);
-  // if (dims1.filas !== dims2.filas || dims1.columnas !== dims2.columnas) {
-  //   throw new Error('Las imágenes deben tener el mismo tamaño');
-  // }
+  const dims1 = obtenerDimensiones(matriz1);
+  const dims2 = obtenerDimensiones(matriz2);
+  if (dims1.filas !== dims2.filas || dims1.columnas !== dims2.columnas) {
+    throw new Error('Las imágenes deben tener el mismo tamaño');
+  }
   
-  // 2. Para cada pixel:
-  // r = r1 * (1 - factor) + r2 * factor
-  // g = g1 * (1 - factor) + g2 * factor
-  // b = b1 * (1 - factor) + b2 * factor
-  
-  return []; // REEMPLAZAR
+
+  for (let i = 0; i < resultado.length; i++) {
+    for (let j = 0; j < resultado[i].length; j++) {
+      resultado[i][j].r = limitarValorColor(
+        matriz1[i][j].r * (1 - factor) + matriz2[i][j].r * factor
+      );
+      resultado[i][j].g = limitarValorColor(
+        matriz1[i][j].g * (1 - factor) + matriz2[i][j].g * factor
+      );
+      resultado[i][j].b = limitarValorColor(
+         matriz1[i][j].b * (1 - factor) + matriz2[i][j].b * factor
+      );
+    }
+  }
+
+  return resultado;
 }
 
 /**
